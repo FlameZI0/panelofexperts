@@ -207,89 +207,49 @@
     </div>
   </div>
 
-  <!-- Google Sign-In Button -->
-  <button onclick="signInWithGoogle()">Sign In with Google</button>
-  <button onclick="signOut()" style="display: none;">Sign Out</button>
-
+  <!-- Arabic Translations (Add below for Arabic toggle) -->
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
-      authDomain: "efwes-89b5a.firebaseapp.com",
-      projectId: "efwes-89b5a",
-      storageBucket: "efwes-89b5a.appspot.com",
-      messagingSenderId: "734782298167",
-      appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
-      measurementId: "G-HZZE66MYV7"
-    };
-  
-    firebase.initializeApp(firebaseConfig);
-  
-    function signInWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          console.log("✅ Signed in user:", user); // Debug log
-  
-          if (user) {
-            showUserInfo(user);
-          }
-        })
-        .catch((error) => {
-          console.error("❌ Sign in error:", error.message);
-        });
-    }
-  
-    function signOut() {
-      firebase.auth().signOut()
-        .then(() => {
-          document.getElementById('user-info').style.display = 'none';
-          document.querySelector('button[onclick="signOut()"]').style.display = 'none';
-          document.querySelector('button[onclick="signInWithGoogle()"]').style.display = 'inline-block';
-          console.log("👋 Signed out");
-        })
-        .catch((error) => {
-          console.error("❌ Sign out error:", error.message);
-        });
-    }
-  
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log("👤 User logged in:", user.displayName, user.photoURL);
-        showUserInfo(user);
-      } else {
-        console.log("❌ No user signed in");
+    // Add Arabic translations to the page elements
+    const translations = {
+      'en': {
+        'home': 'Home',
+        'contact': 'Contact',
+        'heading': 'PANEL OF EXPERTS',
+        'what_is_our_purpose': 'What is our purpose?',
+        'purpose_text': 'Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.',
+        'contact_us': 'Contact us!',
+        'mobile': 'Mobile: +971 PANEL',
+        'email': 'Email: panel@outlook.com',
+        'sign_in': 'Sign In with Google',
+        'sign_out': 'Sign Out'
+      },
+      'ar': {
+        'home': 'الرئيسية',
+        'contact': 'اتصل بنا',
+        'heading': 'لوحة الخبراء',
+        'what_is_our_purpose': 'ما هو هدفنا؟',
+        'purpose_text': 'هدفنا هو تقديم المساعدة والنصيحة للشركات التي على وشك الانهيار — إحياء الابتكار، إعادة هيكلة الفوضى، ومساعدتها على النهوض من الرماد للهيمنة على صناعتها مرة أخرى.',
+        'contact_us': 'اتصل بنا!',
+        'mobile': 'الهاتف: +971 PANEL',
+        'email': 'البريد الإلكتروني: panel@outlook.com',
+        'sign_in': 'تسجيل الدخول باستخدام Google',
+        'sign_out': 'تسجيل الخروج'
       }
-    });
+    };
 
-    // Safe DOM load + auth state
-    window.addEventListener('DOMContentLoaded', () => {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          console.log("👤 User detected on load:", user);
-          showUserInfo(user);
-        } else {
-          console.log("🙅‍♂️ No user logged in.");
-          document.getElementById('user-info').style.display = 'none';
-        }
-      });
-    });
-
-    function showUserInfo(user) {
-      if (!user) return;
-
-      document.getElementById('user-info').style.display = 'flex';
-      document.getElementById('username').innerText = user.displayName;
-      document.getElementById('profile-pic').src = user.photoURL;
-
-      // Show sign-out button, hide sign-in button
-      document.querySelector('button[onclick="signOut()"]').style.display = 'inline-block';
-      document.querySelector('button[onclick="signInWithGoogle()"]').style.display = 'none';
-    }
-  
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
+    // Function to switch languages
+    function changeLanguage(language) {
+      const langData = translations[language];
+      document.getElementById('home').innerHTML = langData.home;
+      document.getElementById('contact').innerHTML = langData.contact;
+      document.getElementById('heading').innerHTML = langData.heading;
+      document.getElementById('what_is_our_purpose').innerHTML = langData.what_is_our_purpose;
+      document.getElementById('purpose_text').innerHTML = langData.purpose_text;
+      document.getElementById('contact_us').innerHTML = langData.contact_us;
+      document.getElementById('mobile').innerHTML = langData.mobile;
+      document.getElementById('email').innerHTML = langData.email;
+      document.getElementById('sign_in').innerHTML = langData.sign_in;
+      document.getElementById('sign_out').innerHTML = langData.sign_out;
     }
   </script>
 </body>
