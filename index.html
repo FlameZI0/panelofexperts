@@ -6,10 +6,6 @@
   <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
   <title>Panel Experts</title>
 
-  <!-- ✅ Firebase v8 - the right one for direct HTML usage -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
   <style>
     /* Style for the dropdown container */
     .dropdown {
@@ -63,6 +59,7 @@
     .dropdown:hover .dropdown-content {
       display: block;
     }
+
     /* Reset & Base */
     body {
       font-family: 'Verdana', sans-serif;
@@ -72,7 +69,7 @@
       padding-top: 80px;
       line-height: 1.6;
     }
-    
+
     /* Navigation */
     #nav {
       position: fixed;
@@ -88,14 +85,14 @@
       z-index: 1000;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
-    
+
     #nav h2 {
       margin: 0;
       font-size: 20px;
       font-weight: bold;
       color: #ffffff;
     }
-    
+
     a {
       background-color: #3fa0f9;
       color: white;
@@ -105,12 +102,12 @@
       font-weight: bold;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
-    
+
     a:hover {
       background-color: #58c0f5;
       transform: scale(1.05);
     }
-    
+
     /* Profile/User Info */
     #user-info {
       position: fixed;
@@ -122,32 +119,32 @@
       z-index: 999;
       color: #fff;
     }
-    
+
     #user-info img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       border: 2px solid #3fa0f9;
     }
-    
+
     /* Page Sections */
     .page {
       display: none;
       padding: 40px 20px;
       animation: fadeIn 0.3s ease-in-out;
     }
-    
+
     .page.active {
       display: block;
     }
-    
+
     /* Headings */
     #heading {
       font-size: 36px;
       margin-bottom: 20px;
       font-weight: bold;
     }
-    
+
     /* Inputs & Textareas */
     input, textarea {
       padding: 12px;
@@ -161,11 +158,11 @@
       color: #fff;
       transition: outline 0.2s ease;
     }
-    
+
     input:focus, textarea:focus {
       outline: 2px solid #3fa0f9;
     }
-    
+
     /* Buttons */
     button {
       padding: 12px 24px;
@@ -179,12 +176,12 @@
       margin: 10px 5px 0 0;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
-    
+
     button:hover {
       background-color: #58c0f5;
       transform: translateY(-2px);
     }
-    
+
     /* Info Block */
     #block {
       background-color: #151d2a;
@@ -196,7 +193,7 @@
       word-break: break-word;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     }
-    
+
     /* Toasts (for messages later) */
     .toast {
       position: fixed;
@@ -212,12 +209,12 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
       z-index: 1001;
     }
-    
+
     .toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(-10px);
     }
-    
+
     /* Fade-in animation */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -264,10 +261,6 @@
     </div>
   </div>
 
-  <!-- Google Sign-In Button -->
-  <button id="sign-in" onclick="signInWithGoogle()">Sign In with Google</button>
-  <button id="sign-out" onclick="signOut()" style="display: none;">Sign Out</button>
-
   <script>
     const translations = {
       'en': {
@@ -278,9 +271,7 @@
         'purpose_text': 'Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.',
         'contact_us': 'Contact us!',
         'mobile': 'Mobile: +971 PANEL',
-        'email': 'Email: panel@outlook.com',
-        'sign_in': 'Sign In with Google',
-        'sign_out': 'Sign Out'
+        'email': 'Email: panel@outlook.com'
       },
       'ar': {
         'home': 'الرئيسية',
@@ -290,9 +281,7 @@
         'purpose_text': 'هدفنا هو تقديم المساعدة والنصيحة للشركات التي على وشك الانهيار — إحياء الابتكار، إعادة هيكلة الفوضى، ومساعدتها على النهوض من الرماد للهيمنة على صناعتها مرة أخرى.',
         'contact_us': 'اتصل بنا!',
         'mobile': 'الهاتف: +971 PANEL',
-        'email': 'البريد الإلكتروني: panel@outlook.com',
-        'sign_in': 'تسجيل الدخول باستخدام Google',
-        'sign_out': 'تسجيل الخروج'
+        'email': 'البريد الإلكتروني: panel@outlook.com'
       }
     };
   
@@ -306,8 +295,6 @@
       const contactUs = document.getElementById('contact_us');
       const mobile = document.getElementById('mobile');
       const email = document.getElementById('email');
-      const signIn = document.getElementById('sign_in');
-      const signOut = document.getElementById('sign_out');
       
       if (heading) heading.innerHTML = langData.heading;
       if (whatIsOurPurpose) whatIsOurPurpose.innerHTML = langData.what_is_our_purpose;
@@ -315,8 +302,6 @@
       if (contactUs) contactUs.innerHTML = langData.contact_us;
       if (mobile) mobile.innerHTML = langData.mobile;
       if (email) email.innerHTML = langData.email;
-      if (signIn) signIn.innerHTML = langData.sign_in;
-      if (signOut) signOut.innerHTML = langData.sign_out;
     }
   
     // Function to show pages
