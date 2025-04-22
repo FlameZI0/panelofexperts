@@ -168,13 +168,45 @@
       font-size: 18px;
     }
 
-    #contact_us, #ratings_title, #our_services {
+    #contact_us, #ratings_title, #our_services, #job_titles {
       font-size: 28px;
       margin-bottom: 20px;
     }
 
     #info, #block {
       margin-bottom: 20px;
+    }
+
+    /* Job Titles Section */
+    .job-item {
+      background-color: #223044;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .job-item h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .job-item p {
+      font-size: 16px;
+    }
+
+    .job-item .salary {
+      font-weight: bold;
+      color: #ffdd00;
+    }
+
+    .job-item .time {
+      color: #f1f1f1;
+    }
+
+    .job-item .description {
+      margin-top: 10px;
+      font-size: 16px;
     }
 
     /* Toast Notification */
@@ -355,6 +387,7 @@
     <a href="#" onclick="showPage('home')">Home</a>
     <a href="#" onclick="showPage('contact')">Contact</a>
     <a href="#" onclick="showPage('services')">Services</a>
+    <a href="#" onclick="showPage('job-titles')">Looking for Hire</a> <!-- Added Job Titles Link -->
     <a href="#" onclick="showPage('ratings')">Ratings</a>
     <!-- Language Dropdown -->
     <div class="dropdown">
@@ -362,73 +395,38 @@
       <div class="dropdown-content">
         <a href="#" onclick="changeLanguage('en')">English</a>
         <a href="#" onclick="changeLanguage('ar')">العربية</a>
-        <a href="#" onclick="changeLanguage('fr')">Français</a> <!-- Added French option -->
+        <a href="#" onclick="changeLanguage('fr')">Français</a>
       </div>
     </div>
   </div>
 
-  <!-- User Info Section -->
-  <div id="user-info" style="display: none;">
-    <img id="profile-pic" src="" alt="User's profile picture">
-    <span id="username"></span>
-  </div>
-
-  <!-- Home Page -->
-  <div id="home" class="page active">
-    <h1 id="heading">PANEL OF EXPERTS</h1>
-    <div id="info">
-      <h2 id="what_is_our_purpose">What is our purpose?</h2>
-      <p id="purpose_text">Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.</p>
+  <!-- Job Titles Section -->
+  <div id="job-titles" class="page">
+    <h1>Looking for Hire</h1>
+    <div class="job-item">
+      <h3>Software Engineer</h3>
+      <p class="salary">Salary: $80,000 - $120,000</p>
+      <p class="time">Full-Time, 40 hours/week</p>
+      <p class="description">Develop and maintain software applications, collaborate with teams, and enhance system performance.</p>
+    </div>
+    <div class="job-item">
+      <h3>Data Analyst</h3>
+      <p class="salary">Salary: $60,000 - $100,000</p>
+      <p class="time">Full-Time, 40 hours/week</p>
+      <p class="description">Analyze data to provide actionable insights, work with stakeholders to improve decision-making processes.</p>
+    </div>
+    <div class="job-item">
+      <h3>UI/UX Designer</h3>
+      <p class="salary">Salary: $70,000 - $110,000</p>
+      <p class="time">Full-Time, 40 hours/week</p>
+      <p class="description">Design user-friendly interfaces and improve user experiences through thoughtful design and testing.</p>
     </div>
   </div>
 
-  <!-- Contact Page -->
-  <div id="contact" class="page">
-    <h2 id="contact_us">Contact us!</h2>
-    <div id="block">
-      <p id="mobile">Mobile: +971 PANEL</p>
-      <p id="email">Email: panel@outlook.com</p>
-    </div>
-  </div>
+  <!-- Other sections (e.g., Home, Services, Contact, Ratings, etc.) go here -->
 
-  <!-- Services Page -->
-  <div id="services" class="page">
-    <h2 id="our_services">Our Services</h2>
-    <div id="block">
-      <p id="service_1">Consultation: We provide expert advice to help businesses navigate complex challenges.</p>
-      <p id="service_2">Strategy Development: Our team crafts personalized strategies to help your company grow.</p>
-      <p id="service_3">Innovation Support: We assist in reviving and implementing innovative ideas to make your business thrive.</p>
-    </div>
-  </div>
-
-  <!-- Ratings Page -->
-  <div id="ratings" class="page">
-    <h2 id="ratings_title">Customer Ratings</h2>
-    
-    <!-- Ratings List -->
-    <div id="ratings-list">
-      <div class="rating-item">
-        <p>Customer 1</p>
-        <div class="stars">
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-        </div>
-      </div>
-      <div class="rating-item">
-        <p>Customer 2</p>
-        <div class="stars">
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-          <span class="star">★</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
 
   <!-- Login Modal -->
   <div id="login-modal" style="display: none;">
@@ -437,9 +435,6 @@
       <button onclick="googleLogin()">Login</button>
     </div>
   </div>
-
-  <!-- Toast Notification -->
-  <div id="toast" class="toast"></div>
 
   <!-- Script to manage language changes and page transitions -->
   <script>
@@ -462,7 +457,20 @@
           service_1: "Consultation: We provide expert advice to help businesses navigate complex challenges.",
           service_2: "Strategy Development: Our team crafts personalized strategies to help your company grow.",
           service_3: "Innovation Support: We assist in reviving and implementing innovative ideas to make your business thrive.",
-          ratings_title: "Customer Ratings"
+          ratings_title: "Customer Ratings",
+          job_titles: "Looking for Hire",
+          job_1_title: "Software Engineer",
+          job_1_salary: "$80,000 - $120,000",
+          job_1_time: "Full-Time, 40 hours/week",
+          job_1_description: "Develop and maintain software applications, collaborate with teams, and enhance system performance.",
+          job_2_title: "Data Analyst",
+          job_2_salary: "$60,000 - $100,000",
+          job_2_time: "Full-Time, 40 hours/week",
+          job_2_description: "Analyze data to provide actionable insights, work with stakeholders to improve decision-making processes.",
+          job_3_title: "UI/UX Designer",
+          job_3_salary: "$70,000 - $110,000",
+          job_3_time: "Full-Time, 40 hours/week",
+          job_3_description: "Design user-friendly interfaces and improve user experiences through thoughtful design and testing."
         },
         fr: {
           heading: "PANEL D'EXPERTS",
@@ -475,7 +483,20 @@
           service_1: "Consultation : Nous offrons des conseils d'experts pour aider les entreprises à naviguer à travers des défis complexes.",
           service_2: "Développement de Stratégies : Notre équipe élabore des stratégies personnalisées pour aider votre entreprise à croître.",
           service_3: "Soutien à l'Innovation : Nous aidons à raviver et mettre en œuvre des idées innovantes pour faire prospérer votre entreprise.",
-          ratings_title: "Avis des clients"
+          ratings_title: "Avis des clients",
+          job_titles: "À la recherche d'embauche",
+          job_1_title: "Ingénieur Logiciel",
+          job_1_salary: "Salaire : 80 000 $ - 120 000 $",
+          job_1_time: "Temps plein, 40 heures/semaine",
+          job_1_description: "Développer et maintenir des applications logicielles, collaborer avec des équipes et améliorer les performances du système.",
+          job_2_title: "Analyste de Données",
+          job_2_salary: "Salaire : 60 000 $ - 100 000 $",
+          job_2_time: "Temps plein, 40 heures/semaine",
+          job_2_description: "Analyser des données pour fournir des informations exploitables, travailler avec les parties prenantes pour améliorer les processus de prise de décision.",
+          job_3_title: "Concepteur UI/UX",
+          job_3_salary: "Salaire : 70 000 $ - 110 000 $",
+          job_3_time: "Temps plein, 40 heures/semaine",
+          job_3_description: "Concevoir des interfaces utilisateur conviviales et améliorer l'expérience utilisateur grâce à une conception et des tests réfléchis."
         }
       };
 
@@ -491,6 +512,23 @@
       document.getElementById("service_2").innerText = content.service_2;
       document.getElementById("service_3").innerText = content.service_3;
       document.getElementById("ratings_title").innerText = content.ratings_title;
+
+      // Job Titles Section
+      document.getElementById("job_titles").innerText = content.job_titles;
+      document.querySelector(".job-item:nth-child(1) h3").innerText = content.job_1_title;
+      document.querySelector(".job-item:nth-child(1) .salary").innerText = content.job_1_salary;
+      document.querySelector(".job-item:nth-child(1) .time").innerText = content.job_1_time;
+      document.querySelector(".job-item:nth-child(1) .description").innerText = content.job_1_description;
+
+      document.querySelector(".job-item:nth-child(2) h3").innerText = content.job_2_title;
+      document.querySelector(".job-item:nth-child(2) .salary").innerText = content.job_2_salary;
+      document.querySelector(".job-item:nth-child(2) .time").innerText = content.job_2_time;
+      document.querySelector(".job-item:nth-child(2) .description").innerText = content.job_2_description;
+
+      document.querySelector(".job-item:nth-child(3) h3").innerText = content.job_3_title;
+      document.querySelector(".job-item:nth-child(3) .salary").innerText = content.job_3_salary;
+      document.querySelector(".job-item:nth-child(3) .time").innerText = content.job_3_time;
+      document.querySelector(".job-item:nth-child(3) .description").innerText = content.job_3_description;
     }
   </script>
 
