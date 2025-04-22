@@ -50,259 +50,299 @@
   </script>
 
   <style>
-    /* Style for the dropdown container */
+    /* Reset some basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* General Body */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navigation Bar */
+    #nav {
+      background-color: #1a1a1a;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      width: 250px;
+      position: fixed;
+      height: 100%;
+    }
+
+    #nav h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    #nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+
+    #nav a:hover {
+      background-color: #4d4d4d;
+    }
+
     .dropdown {
       position: relative;
-      display: inline-block;
     }
 
-    /* Style for the dropdown button */
     .dropdown button {
-      background-color: #3fa0f9;
+      background-color: #333;
       color: white;
-      padding: 10px 20px;
+      padding: 10px;
       font-size: 16px;
+      border-radius: 5px;
+      width: 100%;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .dropdown button:hover {
-      background-color: #58c0f5;
-      transform: scale(1.05);
-    }
-
-    /* Style for the dropdown menu (hidden by default) */
     .dropdown-content {
       display: none;
       position: absolute;
-      background-color: #223044;
+      background-color: #333;
       min-width: 160px;
       box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
       z-index: 1;
-      border-radius: 8px;
     }
 
-    /* Style for each menu item */
-    .dropdown-content a {
-      color: white;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 14px;
-    }
-
-    /* Change color of the menu item on hover */
-    .dropdown-content a:hover {
-      background-color: #58c0f5;
-    }
-
-    /* Show the dropdown menu when the button is clicked */
     .dropdown:hover .dropdown-content {
       display: block;
     }
 
-    /* Reset & Base */
-    body {
-      font-family: 'Verdana', sans-serif;
-      background-color: #1b2636;
-      color: #ffffff;
-      margin: 0;
-      padding-top: 80px;
-      line-height: 1.6;
-    }
-
-    /* Navigation */
-    #nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #1f3153;
-      padding: 10px 20px;
-      border-radius: 0 0 10px 10px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    #nav h2 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: bold;
-      color: #ffffff;
-    }
-
-    a {
-      background-color: #3fa0f9;
+    .dropdown-content a {
+      padding: 12px 16px;
       color: white;
-      padding: 10px 16px;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: block;
+      font-size: 16px;
     }
 
-    a:hover {
-      background-color: #58c0f5;
-      transform: scale(1.05);
+    .dropdown-content a:hover {
+      background-color: #575757;
     }
 
-    /* Profile/User Info */
-    #user-info {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 999;
-      color: #fff;
-    }
-
-    #user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #3fa0f9;
-    }
-
-    /* Page Sections */
+    /* Page Styling */
     .page {
       display: none;
-      padding: 40px 20px;
-      animation: fadeIn 0.3s ease-in-out;
+      margin-left: 270px;
+      padding: 20px;
     }
 
     .page.active {
       display: block;
     }
 
-    /* Headings */
+    h1, h2, p {
+      font-family: 'Arial', sans-serif;
+    }
+
     #heading {
       font-size: 36px;
       margin-bottom: 20px;
-      font-weight: bold;
     }
 
-    /* Inputs & Textareas */
-    input, textarea {
-      padding: 12px;
-      margin: 10px 0;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      background-color: #223044;
-      color: #fff;
-      transition: outline 0.2s ease;
+    #what_is_our_purpose {
+      font-size: 28px;
+      margin-bottom: 20px;
     }
 
-    input:focus, textarea:focus {
-      outline: 2px solid #3fa0f9;
+    #purpose_text, #service_1, #service_2, #service_3, #mobile, #email {
+      font-size: 18px;
     }
 
-    /* Buttons */
-    button {
-      padding: 12px 24px;
-      background-color: #3fa0f9;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-      margin: 10px 5px 0 0;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+    #contact_us, #ratings_title, #our_services {
+      font-size: 28px;
+      margin-bottom: 20px;
     }
 
-    button:hover {
-      background-color: #58c0f5;
-      transform: translateY(-2px);
+    #info, #block {
+      margin-bottom: 20px;
     }
 
-    /* Info Block */
-    #block {
-      background-color: #151d2a;
-      display: inline-block;
-      max-width: 400px;
-      padding: 15px;
-      border-radius: 10px;
-      overflow-wrap: break-word;
-      word-break: break-word;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Toasts (for messages later) */
+    /* Toast Notification */
     .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #222c3e;
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
       color: #fff;
-      padding: 12px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      border-radius: 5px;
+      padding: 10px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      font-size: 17px;
       opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 1001;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
     .toast.show {
+      visibility: visible;
       opacity: 1;
-      transform: translateX(-50%) translateY(-10px);
     }
-    
-        /* Rating Section */
+
+    /* Rating Section */
     #ratings {
       padding: 40px 20px;
     }
-    
+
     #ratings_title {
       font-size: 32px;
       margin-bottom: 20px;
     }
-    
+
     #ratings-list {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-    
+
     .rating-item {
       background-color: #223044;
       padding: 15px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-    
+
     .rating-item p {
       font-size: 20px;
       font-weight: bold;
       color: #fff;
       margin-bottom: 10px;
     }
-    
+
     .stars {
       font-size: 20px;
     }
-    
+
     .star {
       color: #ffdd00; /* Gold for filled stars */
     }
-    
+
     .star:nth-child(5) {
       color: #ccc; /* Light gray for empty stars */
     }
-    /* Fade-in animation */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    #ratings-list .rating-item .stars .star:nth-child(n+6) {
+      color: #ccc; /* Gray out stars if rating is less than 5 */
+    }
+
+    /* User Info Section */
+    #user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    /* Login Modal */
+    #login-modal {
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #login-modal .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+    }
+
+    #login-modal .modal-content h2 {
+      margin-bottom: 20px;
+    }
+
+    /* Button Styling */
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    button:active {
+      background-color: #3e8e41;
+    }
+
+    /* Dropdown Menu Styling */
+    #dropdown-content {
+      display: none;
+      background-color: #333;
+      position: absolute;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    #dropdown-content a {
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    #dropdown-content a:hover {
+      background-color: #555;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media screen and (max-width: 768px) {
+      #nav {
+        width: 100%;
+        position: relative;
+      }
+
+      #user-info {
+        display: none;
+      }
+
+      .page {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
@@ -315,13 +355,14 @@
     <a href="#" onclick="showPage('home')">Home</a>
     <a href="#" onclick="showPage('contact')">Contact</a>
     <a href="#" onclick="showPage('services')">Services</a>
-    <a href="#" onclick="showPage('ratings')">Services</a>
+    <a href="#" onclick="showPage('ratings')">Ratings</a>
     <!-- Language Dropdown -->
     <div class="dropdown">
       <button>Select Language</button>
       <div class="dropdown-content">
         <a href="#" onclick="changeLanguage('en')">English</a>
         <a href="#" onclick="changeLanguage('ar')">العربية</a>
+        <a href="#" onclick="changeLanguage('fr')">Français</a> <!-- Added French option -->
       </div>
     </div>
   </div>
@@ -350,6 +391,7 @@
     </div>
   </div>
 
+  <!-- Services Page -->
   <div id="services" class="page">
     <h2 id="our_services">Our Services</h2>
     <div id="block">
@@ -359,79 +401,98 @@
     </div>
   </div>
 
+  <!-- Ratings Page -->
   <div id="ratings" class="page">
-  <h2 id="ratings_title">Customer Ratings</h2>
-  
-  <!-- Ratings List -->
-  <div id="ratings-list">
-    <div class="rating-item">
-      <p id="person_name">DeadZone communications</p>
-      <p id="person_name">"Our buissness now have 100x more customers (600) and now has a strong, enthusiastic workforce of 300 people! Thanks for the help!"</p>
-      <div class="stars">
-        <!-- 5 Stars Rating -->
-        <span class="star">★</span>
-        <span class="star">★</span>
-        <span class="star">★</span>
-        <span class="star">★</span>
-        <span class="star">★</span> <!-- Empty star for 4 stars -->
+    <h2 id="ratings_title">Customer Ratings</h2>
+    
+    <!-- Ratings List -->
+    <div id="ratings-list">
+      <div class="rating-item">
+        <p>Customer 1</p>
+        <div class="stars">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+        </div>
+      </div>
+      <div class="rating-item">
+        <p>Customer 2</p>
+        <div class="stars">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+        </div>
       </div>
     </div>
-    <!-- Add more ratings below -->
   </div>
-</div>
-  <!-- Google Login Button -->
-  <button onclick="googleLogin()">Login with Google</button>
 
-  <!-- Toast for messages -->
+  <!-- Login Modal -->
+  <div id="login-modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Login with Google</h2>
+      <button onclick="googleLogin()">Login</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
   <div id="toast" class="toast"></div>
 
+  <!-- Script to manage language changes and page transitions -->
   <script>
-    const translations = {
-      'en': {
-        'home': 'Home',
-        'contact': 'Contact',
-        'heading': 'PANEL OF EXPERTS',
-        'what_is_our_purpose': 'What is our purpose?',
-        'purpose_text': 'Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.',
-        'contact_us': 'Contact us!',
-        'mobile': 'Mobile: +971 PANEL',
-        'email': 'Email: panel@outlook.com'
-      },
-      'ar': {
-        'home': 'الرئيسية',
-        'contact': 'اتصل بنا',
-        'heading': 'لوحة الخبراء',
-        'what_is_our_purpose': 'ما هو هدفنا؟',
-        'purpose_text': 'هدفنا هو تقديم المساعدة والنصيحة للشركات التي على وشك الانهيار — إحياء الابتكار، إعادة هيكلة الفوضى، ومساعدتها على النهوض من الرماد للهيمنة على صناعتها مرة أخرى.',
-        'contact_us': 'اتصل بنا!',
-        'mobile': 'الهاتف: +971 PANEL',
-        'email': 'البريد الإلكتروني: panel@outlook.com'
-      }
-    };
-
-    function changeLanguage(language) {
-      const langData = translations[language];
-      const heading = document.getElementById('heading');
-      const whatIsOurPurpose = document.getElementById('what_is_our_purpose');
-      const purposeText = document.getElementById('purpose_text');
-      const contactUs = document.getElementById('contact_us');
-      const mobile = document.getElementById('mobile');
-      const email = document.getElementById('email');
-      
-      if (heading) heading.innerHTML = langData.heading;
-      if (whatIsOurPurpose) whatIsOurPurpose.innerHTML = langData.what_is_our_purpose;
-      if (purposeText) purposeText.innerHTML = langData.purpose_text;
-      if (contactUs) contactUs.innerHTML = langData.contact_us;
-      if (mobile) mobile.innerHTML = langData.mobile;
-      if (email) email.innerHTML = langData.email;
-    }
-
-    // Function to show pages
     function showPage(pageId) {
       const pages = document.querySelectorAll('.page');
       pages.forEach(page => page.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
     }
+
+    function changeLanguage(lang) {
+      const textContent = {
+        en: {
+          heading: "PANEL OF EXPERTS",
+          what_is_our_purpose: "What is our purpose?",
+          purpose_text: "Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.",
+          contact_us: "Contact us!",
+          mobile: "Mobile: +971 PANEL",
+          email: "Email: panel@outlook.com",
+          our_services: "Our Services",
+          service_1: "Consultation: We provide expert advice to help businesses navigate complex challenges.",
+          service_2: "Strategy Development: Our team crafts personalized strategies to help your company grow.",
+          service_3: "Innovation Support: We assist in reviving and implementing innovative ideas to make your business thrive.",
+          ratings_title: "Customer Ratings"
+        },
+        fr: {
+          heading: "PANEL D'EXPERTS",
+          what_is_our_purpose: "Quel est notre but?",
+          purpose_text: "Notre objectif est d'aider et de conseiller les entreprises en difficulté — raviver l'innovation, restructurer le chaos et les aider à renaître de leurs cendres pour dominer à nouveau leur secteur.",
+          contact_us: "Contactez-nous!",
+          mobile: "Mobile : +971 PANEL",
+          email: "Email : panel@outlook.com",
+          our_services: "Nos Services",
+          service_1: "Consultation : Nous offrons des conseils d'experts pour aider les entreprises à naviguer à travers des défis complexes.",
+          service_2: "Développement de Stratégies : Notre équipe élabore des stratégies personnalisées pour aider votre entreprise à croître.",
+          service_3: "Soutien à l'Innovation : Nous aidons à raviver et mettre en œuvre des idées innovantes pour faire prospérer votre entreprise.",
+          ratings_title: "Avis des clients"
+        }
+      };
+
+      const content = textContent[lang];
+      document.getElementById("heading").innerText = content.heading;
+      document.getElementById("what_is_our_purpose").innerText = content.what_is_our_purpose;
+      document.getElementById("purpose_text").innerText = content.purpose_text;
+      document.getElementById("contact_us").innerText = content.contact_us;
+      document.getElementById("mobile").innerText = content.mobile;
+      document.getElementById("email").innerText = content.email;
+      document.getElementById("our_services").innerText = content.our_services;
+      document.getElementById("service_1").innerText = content.service_1;
+      document.getElementById("service_2").innerText = content.service_2;
+      document.getElementById("service_3").innerText = content.service_3;
+      document.getElementById("ratings_title").innerText = content.ratings_title;
+    }
   </script>
+
 </body>
 </html>
