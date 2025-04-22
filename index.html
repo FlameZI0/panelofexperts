@@ -333,27 +333,26 @@
   <!-- Toast Notification -->
   <div id="toast" class="toast"></div>
 
-  <!-- Script to manage page transitions and other logic -->
+  <!-- At the end of your script -->
   <script>
     function showPage(pageId) {
       const pages = document.querySelectorAll('.page');
       pages.forEach(page => page.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
     }
-
+  
     function googleLogin() {
-      // Placeholder for Google Login Functionality
       console.log("Logging in with Google...");
       showToast("Successfully logged in!");
     }
-
+  
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.innerText = message;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
-
+  
     function changeLanguage(lang) {
       const textContent = {
         en: {
@@ -369,18 +368,26 @@
           service_3: "Innovation Support: We assist in reviving and implementing innovative ideas to make your business thrive.",
           ratings_title: "Customer Ratings",
           job_titles: "Looking for Hire",
-          job_1_title: "Software Engineer",
-          job_1_salary: "$80,000 - $120,000",
-          job_1_time: "Full-Time, 40 hours/week",
-          job_1_description: "Develop and maintain software applications, collaborate with teams, and enhance system performance.",
-          job_2_title: "Data Analyst",
-          job_2_salary: "$60,000 - $100,000",
-          job_2_time: "Full-Time, 40 hours/week",
-          job_2_description: "Analyze data to provide actionable insights, work with stakeholders to improve decision-making processes.",
-          job_3_title: "UI/UX Designer",
-          job_3_salary: "$70,000 - $110,000",
-          job_3_time: "Full-Time, 40 hours/week",
-          job_3_description: "Design user-friendly interfaces and improve user experiences through thoughtful design and testing."
+          jobs: [
+            {
+              title: "Software Engineer",
+              salary: "Salary: $80,000 - $120,000",
+              time: "Full-Time, 40 hours/week",
+              description: "Develop and maintain software applications, collaborate with teams, and enhance system performance."
+            },
+            {
+              title: "Data Analyst",
+              salary: "Salary: $60,000 - $100,000",
+              time: "Full-Time, 40 hours/week",
+              description: "Analyze data to provide actionable insights, work with stakeholders to improve decision-making processes."
+            },
+            {
+              title: "UI/UX Designer",
+              salary: "Salary: $70,000 - $110,000",
+              time: "Full-Time, 40 hours/week",
+              description: "Design user-friendly interfaces and improve user experiences through thoughtful design and testing."
+            }
+          ]
         },
         fr: {
           heading: "PANEL D'EXPERTS",
@@ -395,21 +402,29 @@
           service_3: "Soutien à l'Innovation : Nous aidons à raviver et mettre en œuvre des idées innovantes pour faire prospérer votre entreprise.",
           ratings_title: "Avis des clients",
           job_titles: "À la recherche d'embauche",
-          job_1_title: "Ingénieur Logiciel",
-          job_1_salary: "Salaire : 80 000 $ - 120 000 $",
-          job_1_time: "Temps plein, 40 heures/semaine",
-          job_1_description: "Développer et maintenir des applications logicielles, collaborer avec des équipes et améliorer les performances du système.",
-          job_2_title: "Analyste de Données",
-          job_2_salary: "Salaire : 60 000 $ - 100 000 $",
-          job_2_time: "Temps plein, 40 heures/semaine",
-          job_2_description: "Analyser des données pour fournir des informations exploitables, travailler avec les parties prenantes pour améliorer les processus de prise de décision.",
-          job_3_title: "Concepteur UI/UX",
-          job_3_salary: "Salaire : 70 000 $ - 110 000 $",
-          job_3_time: "Temps plein, 40 heures/semaine",
-          job_3_description: "Concevoir des interfaces utilisateur conviviales et améliorer l'expérience utilisateur grâce à une conception et des tests réfléchis."
+          jobs: [
+            {
+              title: "Ingénieur Logiciel",
+              salary: "Salaire : 80 000 $ - 120 000 $",
+              time: "Temps plein, 40 heures/semaine",
+              description: "Développer et maintenir des applications logicielles, collaborer avec des équipes et améliorer les performances du système."
+            },
+            {
+              title: "Analyste de Données",
+              salary: "Salaire : 60 000 $ - 100 000 $",
+              time: "Temps plein, 40 heures/semaine",
+              description: "Analyser des données pour fournir des informations exploitables, travailler avec les parties prenantes pour améliorer les processus de prise de décision."
+            },
+            {
+              title: "Concepteur UI/UX",
+              salary: "Salaire : 70 000 $ - 110 000 $",
+              time: "Temps plein, 40 heures/semaine",
+              description: "Concevoir des interfaces utilisateur conviviales et améliorer l'expérience utilisateur grâce à une conception et des tests réfléchis."
+            }
+          ]
         }
       };
-
+  
       const content = textContent[lang];
       document.getElementById("heading").innerText = content.heading;
       document.getElementById("what_is_our_purpose").innerText = content.what_is_our_purpose;
@@ -422,23 +437,19 @@
       document.getElementById("service_2").innerText = content.service_2;
       document.getElementById("service_3").innerText = content.service_3;
       document.getElementById("ratings_title").innerText = content.ratings_title;
-
-      // Job Titles Section
       document.getElementById("job_titles").innerText = content.job_titles;
-      document.querySelector(".job-item:nth-child(1) h3").innerText = content.job_1_title;
-      document.querySelector(".job-item:nth-child(1) .salary").innerText = content.job_1_salary;
-      document.querySelector(".job-item:nth-child(1) .time").innerText = content.job_1_time;
-      document.querySelector(".job-item:nth-child(1) .description").innerText = content.job_1_description;
-
-      document.querySelector(".job-item:nth-child(2) h3").innerText = content.job_2_title;
-      document.querySelector(".job-item:nth-child(2) .salary").innerText = content.job_2_salary;
-      document.querySelector(".job-item:nth-child(2) .time").innerText = content.job_2_time;
-      document.querySelector(".job-item:nth-child(2) .description").innerText = content.job_2_description;
-
-      document.querySelector(".job-item:nth-child(3) h3").innerText = content.job_3_title;
-      document.querySelector(".job-item:nth-child(3) .salary").innerText = content.job_3_salary;
-      document.querySelector(".job-item:nth-child(3) .time").innerText = content.job_3_time;
-      document.querySelector(".job-item:nth-child(3) .description").innerText = content.job_3_description;
+  
+      // Update job listings
+      const jobItems = document.querySelectorAll('.job-item');
+      content.jobs.forEach((job, index) => {
+        if (jobItems[index]) {
+          const jobElement = jobItems[index];
+          jobElement.querySelector('h3').innerText = job.title;
+          jobElement.querySelector('.salary').innerText = job.salary;
+          jobElement.querySelector('.time').innerText = job.time;
+          jobElement.querySelector('.description').innerText = job.description;
+        }
+      });
     }
   </script>
 
