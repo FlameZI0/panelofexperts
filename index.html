@@ -1,212 +1,26 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
-  <title>Panel Experts</title>
-
-  <!-- Firebase SDK (modular version) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
-      authDomain: "efwes-89b5a.firebaseapp.com",
-      projectId: "efwes-89b5a",
-      storageBucket: "efwes-89b5a.firebasestorage.app",
-      messagingSenderId: "734782298167",
-      appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
-      measurementId: "G-HZZE66MYV7"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-
-    window.googleLogin = () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const user = result.user;
-          document.getElementById("username").innerText = user.displayName;
-          document.getElementById("profile-pic").src = user.photoURL;
-          document.getElementById("user-info").style.display = "flex";
-          document.getElementById("login-modal").style.display = "none";
-          showToast("Logged in as " + user.displayName);
-        })
-        .catch((error) => {
-          console.error("Login failed", error);
-          showToast("Login failed!");
-        });
-    };
-
-    window.showToast = (message) => {
-      const toast = document.getElementById("toast");
-      toast.innerText = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3000);
-    };
-  </script>
-
+  <title>Panel of Experts</title>
   <style>
-    /* Reset some basic styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    /* General Body */
+    /* Basic Styles */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #121212;
-      color: white;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
     }
-
-    /* Navigation Bar */
-    #nav {
-      background-color: #1a1a1a;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      width: 250px;
-      position: fixed;
-      height: 100%;
+    h1, h2, h3 {
+      color: #333;
     }
-
-    #nav h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #fff;
-    }
-
-    #nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 18px;
-      margin-bottom: 10px;
-      display: block;
-      transition: background-color 0.3s ease;
-    }
-
-    #nav a:hover {
-      background-color: #4d4d4d;
-    }
-
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown button {
-      background-color: #333;
-      color: white;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      width: 100%;
-      border: none;
-      cursor: pointer;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #333;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .dropdown-content a {
-      padding: 12px 16px;
-      color: white;
-      text-decoration: none;
-      display: block;
-      font-size: 16px;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #575757;
-    }
-
-    /* Page Styling */
     .page {
       display: none;
-      margin-left: 270px;
-      padding: 20px;
     }
-
-    .page.active {
+    .active {
       display: block;
-    }
-
-    h1, h2, p {
-      font-family: 'Arial', sans-serif;
-    }
-
-    #heading {
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
-
-    #what_is_our_purpose {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    #purpose_text, #service_1, #service_2, #service_3, #mobile, #email {
-      font-size: 18px;
-    }
-
-    #contact_us, #ratings_title, #our_services, #job_titles {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    #info, #block {
-      margin-bottom: 20px;
-    }
-
-    /* Job Titles Section */
-    .job-item {
-      background-color: #223044;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .job-item h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    .job-item p {
-      font-size: 16px;
-    }
-
-    .job-item .salary {
-      font-weight: bold;
-      color: #ffdd00;
-    }
-
-    .job-item .time {
-      color: #f1f1f1;
-    }
-
-    .job-item .description {
-      margin-top: 10px;
-      font-size: 16px;
     }
 
     /* Toast Notification */
@@ -217,192 +31,100 @@
       background-color: #333;
       color: #fff;
       text-align: center;
-      border-radius: 5px;
-      padding: 10px;
+      border-radius: 2px;
+      padding: 16px;
       position: fixed;
       z-index: 1;
       left: 50%;
       bottom: 30px;
       font-size: 17px;
-      opacity: 0;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
-
     .toast.show {
       visibility: visible;
-      opacity: 1;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein {
+      from {bottom: 0; opacity: 0;}
+      to {bottom: 30px; opacity: 1;}
+    }
+    @keyframes fadeout {
+      from {opacity: 1;}
+      to {opacity: 0;}
     }
 
-    /* Rating Section */
-    #ratings {
-      padding: 40px 20px;
-    }
-
-    #ratings_title {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    #ratings-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .rating-item {
-      background-color: #223044;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .rating-item p {
-      font-size: 20px;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .stars {
-      font-size: 20px;
-    }
-
-    .star {
-      color: #ffdd00; /* Gold for filled stars */
-    }
-
-    .star:nth-child(5) {
-      color: #ccc; /* Light gray for empty stars */
-    }
-
-    #ratings-list .rating-item .stars .star:nth-child(n+6) {
-      color: #ccc; /* Gray out stars if rating is less than 5 */
-    }
-
-    /* User Info Section */
-    #user-info {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    #profile-pic {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    /* Login Modal */
+    /* Modal */
     #login-modal {
-      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
       position: fixed;
-      top: 0;
+      z-index: 1;
       left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: rgba(0,0,0,0.4);
     }
-
-    #login-modal .modal-content {
-      background-color: white;
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 300px;
-    }
-
-    #login-modal .modal-content h2 {
-      margin-bottom: 20px;
-    }
-
-    /* Button Styling */
-    button {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
       text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    button:active {
-      background-color: #3e8e41;
-    }
-
-    /* Dropdown Menu Styling */
-    #dropdown-content {
-      display: none;
-      background-color: #333;
-      position: absolute;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    #dropdown-content a {
-      padding: 10px;
-      color: white;
-      text-decoration: none;
-    }
-
-    #dropdown-content a:hover {
-      background-color: #555;
-    }
-
-    /* Media Queries for Responsive Design */
-    @media screen and (max-width: 768px) {
-      #nav {
-        width: 100%;
-        position: relative;
-      }
-
-      #user-info {
-        display: none;
-      }
-
-      .page {
-        margin-left: 0;
-      }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Navigation -->
-  <div id="nav">
-    <h2>Navigate</h2>
-    <a href="#" onclick="showPage('home')">Home</a>
-    <a href="#" onclick="showPage('contact')">Contact</a>
-    <a href="#" onclick="showPage('services')">Services</a>
-    <a href="#" onclick="showPage('job-titles')">Looking for Hire</a> <!-- Added Job Titles Link -->
-    <a href="#" onclick="showPage('ratings')">Ratings</a>
-    <!-- Language Dropdown -->
-    <div class="dropdown">
-      <button>Select Language</button>
-      <div class="dropdown-content">
-        <a href="#" onclick="changeLanguage('en')">English</a>
-        <a href="#" onclick="changeLanguage('ar')">العربية</a>
-        <a href="#" onclick="changeLanguage('fr')">Français</a>
-      </div>
-    </div>
+  <!-- Header Section -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('services')">Services</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
+        <li><a href="#" onclick="showPage('ratings')">Customer Ratings</a></li>
+        <li><a href="#" onclick="showPage('jobs')">Looking for Hire</a></li>
+        <li><a href="#" onclick="showPage('login')">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Home Section -->
+  <div id="home" class="page active">
+    <h1 id="heading">PANEL OF EXPERTS</h1>
+    <p id="what_is_our_purpose">What is our purpose?</p>
+    <p id="purpose_text">Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.</p>
   </div>
 
-  <!-- Job Titles Section -->
-  <div id="job-titles" class="page">
-    <h1>Looking for Hire</h1>
+  <!-- Services Section -->
+  <div id="services" class="page">
+    <h2 id="our_services">Our Services</h2>
+    <ul>
+      <li id="service_1">Consultation: We provide expert advice to help businesses navigate complex challenges.</li>
+      <li id="service_2">Strategy Development: Our team crafts personalized strategies to help your company grow.</li>
+      <li id="service_3">Innovation Support: We assist in reviving and implementing innovative ideas to make your business thrive.</li>
+    </ul>
+  </div>
+
+  <!-- Contact Section -->
+  <div id="contact" class="page">
+    <h2 id="contact_us">Contact us!</h2>
+    <p id="mobile">Mobile: +971 PANEL</p>
+    <p id="email">Email: panel@outlook.com</p>
+  </div>
+
+  <!-- Ratings Section -->
+  <div id="ratings" class="page">
+    <h2 id="ratings_title">Customer Ratings</h2>
+    <p>⭐⭐⭐⭐⭐ (Based on 300+ reviews)</p>
+    <p>"Panel of Experts helped us transform our company with innovative strategies and valuable insights. We highly recommend them!" - John Doe, CEO</p>
+    <p>"Their consultation services saved our business from financial ruin. Forever grateful!" - Jane Smith, CFO</p>
+  </div>
+
+  <!-- Looking for Hire Section -->
+  <div id="jobs" class="page">
+    <h2 id="job_titles">Looking for Hire</h2>
     <div class="job-item">
       <h3>Software Engineer</h3>
       <p class="salary">Salary: $80,000 - $120,000</p>
@@ -423,25 +145,36 @@
     </div>
   </div>
 
-  <!-- Other sections (e.g., Home, Services, Contact, Ratings, etc.) go here -->
-
-  <!-- Toast Notification -->
-  <div id="toast" class="toast"></div>
-
   <!-- Login Modal -->
-  <div id="login-modal" style="display: none;">
+  <div id="login-modal" class="page">
     <div class="modal-content">
       <h2>Login with Google</h2>
       <button onclick="googleLogin()">Login</button>
     </div>
   </div>
 
-  <!-- Script to manage language changes and page transitions -->
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Script to manage page transitions and other logic -->
   <script>
     function showPage(pageId) {
       const pages = document.querySelectorAll('.page');
       pages.forEach(page => page.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
+    }
+
+    function googleLogin() {
+      // Placeholder for Google Login Functionality
+      console.log("Logging in with Google...");
+      showToast("Successfully logged in!");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     function changeLanguage(lang) {
