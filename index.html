@@ -2,96 +2,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="Image20250422092618.png" />
   <title>Panel Experts</title>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
+      authDomain: "efwes-89b5a.firebaseapp.com",
+      projectId: "efwes-89b5a",
+      storageBucket: "efwes-89b5a.firebasestorage.app",
+      messagingSenderId: "734782298167",
+      appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
+      measurementId: "G-HZZE66MYV7"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+  </script>
+
   <style>
-    /* ALL your current styles remain unchanged up to here */
-
-    /* Toggle Button for Dark/Light Mode */
-    #mode-toggle {
-      margin-left: auto;
-      background-color: #444;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #fff;
-      font-size: 14px;
+    body {
+      font-family: 'Verdana', sans-serif;
+      background-color: #1b2636;
+      color: #ffffff;
+      margin: 0;
+      padding-top: 80px;
     }
 
-    /* Light mode overrides */
-    body.light-mode {
-      background-color: #f2f2f2;
-      color: #111;
-    }
-
-    body.light-mode #nav {
-      background-color: #ffffff;
-      color: #000;
-    }
-
-    body.light-mode .dropdown-content,
-    body.light-mode input,
-    body.light-mode textarea,
-    body.light-mode #block {
-      background-color: #e4e4e4;
-      color: #111;
-    }
-
-    body.light-mode a,
-    body.light-mode button {
-      background-color: #0066ff;
-      color: #fff;
-    }
-
-    body.light-mode a:hover,
-    body.light-mode button:hover {
-      background-color: #3399ff;
-    }
-
-    /* Login Modal */
-    #login-modal {
+    #nav {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.7);
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1f3153;
+      padding: 10px 20px;
+      border-radius: 0 0 10px 10px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      z-index: 9999;
+      gap: 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
-    #login-box {
-      background: #1f3153;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 300px;
-      text-align: center;
+    #nav h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    a, button {
+      background-color: #3fa0f9;
       color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    #login-box input {
-      width: 100%;
-      margin-top: 10px;
+    a:hover, button:hover {
+      background-color: #58c0f5;
+      transform: scale(1.05);
     }
 
-    #login-box button {
-      width: 100%;
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #223044;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 8px;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #58c0f5;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    #user-info {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 999;
+    }
+
+    #user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #3fa0f9;
+    }
+
+    .page {
+      display: none;
+      padding: 40px 20px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    #heading {
+      font-size: 36px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    #block {
+      background-color: #151d2a;
+      max-width: 400px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    #login-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #223044;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #login-modal h2 {
+      margin-bottom: 20px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #222c3e;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 1001;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-10px);
     }
   </style>
 </head>
-<body>
 
-  <!-- Login Modal -->
-  <div id="login-modal">
-    <div id="login-box">
-      <h2>Enter Profile</h2>
-      <input type="text" id="name-input" placeholder="Your Name">
-      <input type="text" id="img-input" placeholder="Profile Image URL">
-      <button onclick="submitLogin()">Continue</button>
-    </div>
-  </div>
+<body>
 
   <!-- Navigation -->
   <div id="nav">
@@ -105,16 +197,21 @@
         <a href="#" onclick="changeLanguage('ar')">العربية</a>
       </div>
     </div>
-    <div id="mode-toggle" onclick="toggleMode()">Toggle Mode</div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal">
+    <h2>Sign in to Continue</h2>
+    <button onclick="googleLogin()">Login with Google</button>
   </div>
 
   <!-- User Info -->
-  <div id="user-info" style="display: none;">
-    <img id="profile-pic" src="" alt="User Pic">
+  <div id="user-info">
+    <img id="profile-pic" src="" alt="User Profile">
     <span id="username"></span>
   </div>
 
-  <!-- Pages -->
+  <!-- Home Page -->
   <div id="home" class="page active">
     <h1 id="heading">PANEL OF EXPERTS</h1>
     <div id="info">
@@ -123,6 +220,7 @@
     </div>
   </div>
 
+  <!-- Contact Page -->
   <div id="contact" class="page">
     <h2 id="contact_us">Contact us!</h2>
     <div id="block">
@@ -131,78 +229,66 @@
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast">Language changed!</div>
+  <div id="toast" class="toast"></div>
 
   <script>
     const translations = {
-      en: {
-        home: 'Home',
-        contact: 'Contact',
-        heading: 'PANEL OF EXPERTS',
-        what_is_our_purpose: 'What is our purpose?',
-        purpose_text: 'Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.',
-        contact_us: 'Contact us!',
-        mobile: 'Mobile: +971 PANEL',
-        email: 'Email: panel@outlook.com'
+      'en': {
+        'home': 'Home',
+        'contact': 'Contact',
+        'heading': 'PANEL OF EXPERTS',
+        'what_is_our_purpose': 'What is our purpose?',
+        'purpose_text': 'Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.',
+        'contact_us': 'Contact us!',
+        'mobile': 'Mobile: +971 PANEL',
+        'email': 'Email: panel@outlook.com'
       },
-      ar: {
-        home: 'الرئيسية',
-        contact: 'اتصل بنا',
-        heading: 'لوحة الخبراء',
-        what_is_our_purpose: 'ما هو هدفنا؟',
-        purpose_text: 'هدفنا هو تقديم المساعدة والنصيحة للشركات التي على وشك الانهيار — إحياء الابتكار، إعادة هيكلة الفوضى، ومساعدتها على النهوض من الرماد للهيمنة على صناعتها مرة أخرى.',
-        contact_us: 'اتصل بنا!',
-        mobile: 'الهاتف: +971 PANEL',
-        email: 'البريد الإلكتروني: panel@outlook.com'
+      'ar': {
+        'home': 'الرئيسية',
+        'contact': 'اتصل بنا',
+        'heading': 'لوحة الخبراء',
+        'what_is_our_purpose': 'ما هو هدفنا؟',
+        'purpose_text': 'هدفنا هو تقديم المساعدة والنصيحة للشركات التي على وشك الانهيار — إحياء الابتكار، إعادة هيكلة الفوضى، ومساعدتها على النهوض من الرماد للهيمنة على صناعتها مرة أخرى.',
+        'contact_us': 'اتصل بنا!',
+        'mobile': 'الهاتف: +971 PANEL',
+        'email': 'البريد الإلكتروني: panel@outlook.com'
       }
     };
 
     function changeLanguage(language) {
       const langData = translations[language];
-      localStorage.setItem('lang', language);
-      for (const id in langData) {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = langData[id];
+      for (let key in langData) {
+        const el = document.getElementById(key);
+        if (el) el.innerHTML = langData[key];
       }
-      showToast("Language changed to " + language.toUpperCase());
     }
 
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
-      showToast("Switched to " + pageId + " page");
     }
 
-    function showToast(msg) {
+    function googleLogin() {
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          document.getElementById("username").innerText = user.displayName;
+          document.getElementById("profile-pic").src = user.photoURL;
+          document.getElementById("user-info").style.display = "flex";
+          document.getElementById("login-modal").style.display = "none";
+          showToast("Logged in as " + user.displayName);
+        })
+        .catch((error) => {
+          console.error("Login failed", error);
+          showToast("Login failed!");
+        });
+    }
+
+    function showToast(message) {
       const toast = document.getElementById("toast");
-      toast.innerText = msg;
+      toast.innerText = message;
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2000);
-    }
-
-    function submitLogin() {
-      const name = document.getElementById("name-input").value;
-      const img = document.getElementById("img-input").value;
-      if (!name || !img) return alert("Enter both fields!");
-
-      document.getElementById("username").innerText = name;
-      document.getElementById("profile-pic").src = img;
-      document.getElementById("user-info").style.display = "flex";
-      document.getElementById("login-modal").style.display = "none";
-    }
-
-    function toggleMode() {
-      document.body.classList.toggle("light-mode");
-      localStorage.setItem('theme', document.body.classList.contains("light-mode") ? "light" : "dark");
-    }
-
-    window.onload = () => {
-      const storedLang = localStorage.getItem("lang");
-      if (storedLang) changeLanguage(storedLang);
-
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme === "light") document.body.classList.add("light-mode");
+      setTimeout(() => toast.classList.remove("show"), 3000);
     }
   </script>
 </body>
