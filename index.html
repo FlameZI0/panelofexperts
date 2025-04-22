@@ -210,7 +210,6 @@
   <button onclick="signInWithGoogle()">Sign In with Google</button>
   <button onclick="signOut()" style="display: none;">Sign Out</button>
 
-  <!-- ✅ Firebase v8 Code (No module needed) -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
@@ -224,47 +223,60 @@
   
     firebase.initializeApp(firebaseConfig);
   
-    const userInfoEl = document.getElementById('user-info');
-    const profilePicEl = document.getElementById('profile-pic');
-    const usernameEl = document.getElementById('username');
-    const signInBtn = document.querySelector('button[onclick="signInWithGoogle()"]');
-    const signOutBtn = document.querySelector('button[onclick="signOut()"]');
-  
     function signInWithGoogle() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider)
         .then((result) => {
-          console.log("Signed in:", result.user.displayName);
-          updateUserUI(result.user);
+          const user = result.user;
+          console.log("✅ Signed in user:", user); // Debug log
+  
+          if (user) {
+            showUserInfo(user);
+          }
         })
         .catch((error) => {
-          console.error("Sign in error:", error.message);
+          console.error("❌ Sign in error:", error.message);
         });
     }
   
     function signOut() {
-      firebase.auth().signOut().then(() => {
-        updateUserUI(null);
-      }).catch((error) => {
-        console.error("Sign out error:", error.message);
+      firebase.auth().signOut()
+        .then(() => {
+          document.getElementById('user-info').style.display = 'none';
+          console.log("👋 Signed out");
+        })
+        .catch((error) => {
+          console.error("❌ Sign out error:", error.message);
+        });
+    }
+  
+    function showUserInfo(user) {
+      const profilePic = document.getElementById('profile-pic');
+      const username = document.getElementById('username');
+      const container = document.getElementById('user-info');
+  
+      profilePic.src = user.photoURL || "https://via.placeholder.com/40";
+      username.textContent = user.displayName || "Unnamed User";
+      container.style.display = 'flex';
+    }
+  
+    // Safe DOM load + auth state
+    window.addEventListener('DOMContentLoaded', () => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log("👤 User detected on load:", user);
+          showUserInfo(user);
+        } else {
+          console.log("🙅‍♂️ No user logged in.");
+          document.getElementById('user-info').style.display = 'none';
+        }
       });
-    }
+    });
   
-    function updateUserUI(user) {
-      if (user) {
-        profilePicEl.src = user.photoURL;
-        usernameEl.textContent = user.displayName;
-        userInfoEl.style.display = 'flex';
-        signInBtn.style.display = 'none';
-        signOutBtn.style.display = 'inline-block';
-      } else {
-        userInfoEl.style.display = 'none';
-        signInBtn.style.display = 'inline-block';
-        signOutBtn.style.display = 'none';
-      }
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
     }
-  
-    firebase.auth().onAuthStateChanged(updateUserUI);
   </script>
 </body>
 </html>
