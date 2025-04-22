@@ -257,7 +257,48 @@
       opacity: 1;
       transform: translateX(-50%) translateY(-10px);
     }
-
+    
+        /* Rating Section */
+    #ratings {
+      padding: 40px 20px;
+    }
+    
+    #ratings_title {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    
+    #ratings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .rating-item {
+      background-color: #223044;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .rating-item p {
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    
+    .stars {
+      font-size: 20px;
+    }
+    
+    .star {
+      color: #ffdd00; /* Gold for filled stars */
+    }
+    
+    .star:nth-child(5) {
+      color: #ccc; /* Light gray for empty stars */
+    }
     /* Fade-in animation */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -273,6 +314,8 @@
     <h2>Navigate</h2>
     <a href="#" onclick="showPage('home')">Home</a>
     <a href="#" onclick="showPage('contact')">Contact</a>
+    <a href="#" onclick="showPage('services')">Services</a>
+    <a href="#" onclick="showPage('ratings')">Services</a>
     <!-- Language Dropdown -->
     <div class="dropdown">
       <button>Select Language</button>
@@ -307,6 +350,34 @@
     </div>
   </div>
 
+  <div id="services" class="page">
+    <h2 id="our_services">Our Services</h2>
+    <div id="block">
+      <p id="service_1">Consultation: We provide expert advice to help businesses navigate complex challenges.</p>
+      <p id="service_2">Strategy Development: Our team crafts personalized strategies to help your company grow.</p>
+      <p id="service_3">Innovation Support: We assist in reviving and implementing innovative ideas to make your business thrive.</p>
+    </div>
+  </div>
+
+  <div id="ratings" class="page">
+  <h2 id="ratings_title">Customer Ratings</h2>
+  
+  <!-- Ratings List -->
+  <div id="ratings-list">
+    <div class="rating-item">
+      <p id="person_name">John Doe</p>
+      <div class="stars">
+        <!-- 5 Stars Rating -->
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">☆</span> <!-- Empty star for 4 stars -->
+      </div>
+    </div>
+    <!-- Add more ratings below -->
+  </div>
+</div>
   <!-- Google Login Button -->
   <button onclick="googleLogin()">Login with Google</button>
 
