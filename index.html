@@ -216,50 +216,55 @@
       apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
       authDomain: "efwes-89b5a.firebaseapp.com",
       projectId: "efwes-89b5a",
-      storageBucket: "efwes-89b5a.firebasestorage.app",
+      storageBucket: "efwes-89b5a.appspot.com",
       messagingSenderId: "734782298167",
       appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
       measurementId: "G-HZZE66MYV7"
     };
-
+  
     firebase.initializeApp(firebaseConfig);
-
+  
+    const userInfoEl = document.getElementById('user-info');
+    const profilePicEl = document.getElementById('profile-pic');
+    const usernameEl = document.getElementById('username');
+    const signInBtn = document.querySelector('button[onclick="signInWithGoogle()"]');
+    const signOutBtn = document.querySelector('button[onclick="signOut()"]');
+  
     function signInWithGoogle() {
-      var provider = new firebase.auth.GoogleAuthProvider();
+      const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider)
         .then((result) => {
-          var user = result.user;
-          document.getElementById('profile-pic').src = user.photoURL;
-          document.getElementById('username').textContent = user.displayName;
-          document.getElementById('user-info').style.display = 'flex';
+          console.log("Signed in:", result.user.displayName);
+          updateUserUI(result.user);
         })
         .catch((error) => {
           console.error("Sign in error:", error.message);
         });
     }
-
+  
     function signOut() {
       firebase.auth().signOut().then(() => {
-        document.getElementById('user-info').style.display = 'none';
+        updateUserUI(null);
       }).catch((error) => {
         console.error("Sign out error:", error.message);
       });
     }
-
-    firebase.auth().onAuthStateChanged((user) => {
+  
+    function updateUserUI(user) {
       if (user) {
-        document.getElementById('profile-pic').src = user.photoURL;
-        document.getElementById('username').textContent = user.displayName;
-        document.getElementById('user-info').style.display = 'flex';
+        profilePicEl.src = user.photoURL;
+        usernameEl.textContent = user.displayName;
+        userInfoEl.style.display = 'flex';
+        signInBtn.style.display = 'none';
+        signOutBtn.style.display = 'inline-block';
       } else {
-        document.getElementById('user-info').style.display = 'none';
+        userInfoEl.style.display = 'none';
+        signInBtn.style.display = 'inline-block';
+        signOutBtn.style.display = 'none';
       }
-    });
-
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
     }
+  
+    firebase.auth().onAuthStateChanged(updateUserUI);
   </script>
 </body>
 </html>
