@@ -1,1 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
+    <title>Panel Experts</title>
+    <style>
+      body {
+        font-family: Verdana;
+        padding-top: 70px;
+        background-color: #1b2636;
+        color: #ffffff;
+      }
+      #nav {
+        padding-bottom: 30px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #1f3153;
+        padding: 5px;
+        z-index: 1000;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      a {
+        background-color: #3fa0f9;
+        transition: width 0.5s ease-in-out, background-color 0.5s ease;
+      }
 
+      a:hover {
+        background-color: #58c0f5;
+      }
+
+      input, textarea {
+        padding: 10px;
+        margin: 10px;
+        width: 300px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #3fa0f9;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #58c0f5;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <div id="nav">
+      <h2>Navigate</h2>
+      <a href="sign-up.html">Sign up</a>
+    </div>
+
+    <!-- Page Heading -->
+    <h1 id="heading">PANEL OF EXPERTS</h1>
+
+    <!-- Purpose Section (to be replaced with input fields) -->
+    <div id="info">
+      <h2>Apply to be an Expert</h2>
+
+      <!-- Form to capture job details -->
+      <form id="jobForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="resume">Resume (Paste text here):</label>
+        <textarea id="resume" name="resume" rows="4" required></textarea>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- Firebase Script -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script>
+      // Firebase Config (Replace with your Firebase project details)
+      const firebaseConfig = {
+        apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
+        authDomain: "efwes-89b5a.firebaseapp.com",
+        projectId: "efwes-89b5a",
+        storageBucket: "efwes-89b5a.firebasestorage.app",
+        messagingSenderId: "734782298167",
+        appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
+        measurementId: "G-HZZE66MYV7"
+      };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      // Job Form Submission
+      const jobForm = document.getElementById("jobForm");
+
+      jobForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Get values from the input fields
+        const username = document.getElementById("username").value;
+        const age = document.getElementById("age").value;
+        const resume = document.getElementById("resume").value;
+        const description = document.getElementById("description").value;
+
+        // Create a new job document in Firestore
+        try {
+          await db.collection("jobs").add({
+            username: username,
+            age: age,
+            resume: resume,
+            description: description,
+          });
+          alert("Job details submitted successfully!");
+          jobForm.reset(); // Clear form after submission
+        } catch (error) {
+          console.error("Error submitting job details: ", error);
+          alert("Failed to submit job details.");
+        }
+      });
+    </script>
+  </body>
+</html>
