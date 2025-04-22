@@ -1,15 +1,16 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/x-icon" href="Image20250422092618.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
   <title>Panel Experts</title>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
-  <script>
+  <!-- Firebase SDK (modular version) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
       authDomain: "efwes-89b5a.firebaseapp.com",
@@ -19,20 +20,100 @@
       appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
       measurementId: "G-HZZE66MYV7"
     };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    window.googleLogin = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          document.getElementById("username").innerText = user.displayName;
+          document.getElementById("profile-pic").src = user.photoURL;
+          document.getElementById("user-info").style.display = "flex";
+          document.getElementById("login-modal").style.display = "none";
+          showToast("Logged in as " + user.displayName);
+        })
+        .catch((error) => {
+          console.error("Login failed", error);
+          showToast("Login failed!");
+        });
+    };
+
+    window.showToast = (message) => {
+      const toast = document.getElementById("toast");
+      toast.innerText = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    };
   </script>
 
   <style>
+    /* Style for the dropdown container */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Style for the dropdown button */
+    .dropdown button {
+      background-color: #3fa0f9;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .dropdown button:hover {
+      background-color: #58c0f5;
+      transform: scale(1.05);
+    }
+
+    /* Style for the dropdown menu (hidden by default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #223044;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 8px;
+    }
+
+    /* Style for each menu item */
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+    }
+
+    /* Change color of the menu item on hover */
+    .dropdown-content a:hover {
+      background-color: #58c0f5;
+    }
+
+    /* Show the dropdown menu when the button is clicked */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Reset & Base */
     body {
       font-family: 'Verdana', sans-serif;
       background-color: #1b2636;
       color: #ffffff;
       margin: 0;
       padding-top: 80px;
+      line-height: 1.6;
     }
 
+    /* Navigation */
     #nav {
       position: fixed;
       top: 0;
@@ -51,65 +132,35 @@
     #nav h2 {
       margin: 0;
       font-size: 20px;
-      color: #fff;
+      font-weight: bold;
+      color: #ffffff;
     }
 
-    a, button {
+    a {
       background-color: #3fa0f9;
       color: white;
       padding: 10px 16px;
-      border: none;
-      border-radius: 8px;
       text-decoration: none;
+      border-radius: 8px;
       font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    a:hover, button:hover {
+    a:hover {
       background-color: #58c0f5;
       transform: scale(1.05);
     }
 
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #223044;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      border-radius: 8px;
-    }
-
-    .dropdown-content a {
-      color: white;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #58c0f5;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
+    /* Profile/User Info */
     #user-info {
       position: fixed;
       top: 20px;
       right: 20px;
-      display: none;
+      display: flex;
       align-items: center;
       gap: 10px;
       z-index: 999;
+      color: #fff;
     }
 
     #user-info img {
@@ -119,48 +170,74 @@
       border: 2px solid #3fa0f9;
     }
 
+    /* Page Sections */
     .page {
       display: none;
       padding: 40px 20px;
+      animation: fadeIn 0.3s ease-in-out;
     }
 
     .page.active {
       display: block;
     }
 
+    /* Headings */
     #heading {
       font-size: 36px;
       margin-bottom: 20px;
       font-weight: bold;
     }
 
+    /* Inputs & Textareas */
+    input, textarea {
+      padding: 12px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      background-color: #223044;
+      color: #fff;
+      transition: outline 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: 2px solid #3fa0f9;
+    }
+
+    /* Buttons */
+    button {
+      padding: 12px 24px;
+      background-color: #3fa0f9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 10px 5px 0 0;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #58c0f5;
+      transform: translateY(-2px);
+    }
+
+    /* Info Block */
     #block {
       background-color: #151d2a;
+      display: inline-block;
       max-width: 400px;
       padding: 15px;
       border-radius: 10px;
+      overflow-wrap: break-word;
+      word-break: break-word;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     }
 
-    #login-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #223044;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-      z-index: 10000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #login-modal h2 {
-      margin-bottom: 20px;
-    }
-
+    /* Toasts (for messages later) */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -180,6 +257,12 @@
       opacity: 1;
       transform: translateX(-50%) translateY(-10px);
     }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 
@@ -190,6 +273,7 @@
     <h2>Navigate</h2>
     <a href="#" onclick="showPage('home')">Home</a>
     <a href="#" onclick="showPage('contact')">Contact</a>
+    <!-- Language Dropdown -->
     <div class="dropdown">
       <button>Select Language</button>
       <div class="dropdown-content">
@@ -199,15 +283,9 @@
     </div>
   </div>
 
-  <!-- Login Modal -->
-  <div id="login-modal">
-    <h2>Sign in to Continue</h2>
-    <button onclick="googleLogin()">Login with Google</button>
-  </div>
-
-  <!-- User Info -->
-  <div id="user-info">
-    <img id="profile-pic" src="" alt="User Profile">
+  <!-- User Info Section -->
+  <div id="user-info" style="display: none;">
+    <img id="profile-pic" src="" alt="User's profile picture">
     <span id="username"></span>
   </div>
 
@@ -229,6 +307,10 @@
     </div>
   </div>
 
+  <!-- Google Login Button -->
+  <button onclick="googleLogin()">Login with Google</button>
+
+  <!-- Toast for messages -->
   <div id="toast" class="toast"></div>
 
   <script>
@@ -257,38 +339,26 @@
 
     function changeLanguage(language) {
       const langData = translations[language];
-      for (let key in langData) {
-        const el = document.getElementById(key);
-        if (el) el.innerHTML = langData[key];
-      }
+      const heading = document.getElementById('heading');
+      const whatIsOurPurpose = document.getElementById('what_is_our_purpose');
+      const purposeText = document.getElementById('purpose_text');
+      const contactUs = document.getElementById('contact_us');
+      const mobile = document.getElementById('mobile');
+      const email = document.getElementById('email');
+      
+      if (heading) heading.innerHTML = langData.heading;
+      if (whatIsOurPurpose) whatIsOurPurpose.innerHTML = langData.what_is_our_purpose;
+      if (purposeText) purposeText.innerHTML = langData.purpose_text;
+      if (contactUs) contactUs.innerHTML = langData.contact_us;
+      if (mobile) mobile.innerHTML = langData.mobile;
+      if (email) email.innerHTML = langData.email;
     }
 
+    // Function to show pages
     function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
-    }
-
-    function googleLogin() {
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          document.getElementById("username").innerText = user.displayName;
-          document.getElementById("profile-pic").src = user.photoURL;
-          document.getElementById("user-info").style.display = "flex";
-          document.getElementById("login-modal").style.display = "none";
-          showToast("Logged in as " + user.displayName);
-        })
-        .catch((error) => {
-          console.error("Login failed", error);
-          showToast("Login failed!");
-        });
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.innerText = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3000);
     }
   </script>
 </body>
