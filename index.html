@@ -1,157 +1,242 @@
 <!DOCTYPE HTML>
-<html>
-  <head>
-    <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
-    <title>Panel Experts</title>
-    <style>
-      /* General Reset & Typography */
-      body {
-        font-family: 'Verdana', sans-serif;
-        background-color: #1b2636;
-        color: #ffffff;
-        margin: 0;
-        padding-top: 80px;
-        line-height: 1.6;
-      }
-      
-      /* Navigation */
-      #nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #1f3153;
-        padding: 10px 20px;
-        border-radius: 0 0 10px 10px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        z-index: 1000;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
-      
-      #nav h2 {
-        margin: 0;
-        font-size: 20px;
-      }
-      
-      /* Navigation Links */
-      a {
-        background-color: #3fa0f9;
-        color: white;
-        padding: 10px 16px;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-      }
-      
-      a:hover {
-        background-color: #58c0f5;
-        transform: scale(1.05);
-      }
-      
-      /* Page Sections */
-      .page {
-        display: none;
-        padding: 40px 20px;
-        animation: fadeIn 0.3s ease-in-out;
-      }
-      
-      .active {
-        display: block;
-      }
-      
-      /* Section Heading */
-      #heading {
-        font-size: 36px;
-        margin-bottom: 20px;
-      }
-      
-      /* Inputs & Textareas */
-      input, textarea {
-        padding: 12px;
-        margin: 10px 0;
-        width: 100%;
-        max-width: 500px;
-        border-radius: 8px;
-        border: none;
-        font-size: 16px;
-        background-color: #223044;
-        color: #fff;
-      }
-      
-      input:focus, textarea:focus {
-        outline: 2px solid #3fa0f9;
-      }
-      
-      /* Buttons */
-      button {
-        padding: 12px 24px;
-        background-color: #3fa0f9;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 16px;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-      }
-      
-      button:hover {
-        background-color: #58c0f5;
-        transform: translateY(-2px);
-      }
-      
-      /* Info Block */
-      #block {
-        background-color: #151d2a;
-        display: inline-block;
-        max-width: 400px;
-        padding: 15px;
-        border-radius: 10px;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-      }
-      
-      /* Fade-in Animation */
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-    </style>
-  </head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
+  <title>Panel Experts</title>
 
-  <body>
-    <div id="nav">
-      <h2>Navigate</h2>
-      <a href="#" onclick="showPage('home')">Home</a>
-      <a href="#" onclick="showPage('contact')">Contact</a>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
+  <style>
+    /* General Reset & Typography */
+    body {
+      font-family: 'Verdana', sans-serif;
+      background-color: #1b2636;
+      color: #ffffff;
+      margin: 0;
+      padding-top: 80px;
+      line-height: 1.6;
+    }
+    
+    /* Navigation */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1f3153;
+      padding: 10px 20px;
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #nav h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    /* Navigation Links */
+    a {
+      background-color: #3fa0f9;
+      color: white;
+      padding: 10px 16px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    a:hover {
+      background-color: #58c0f5;
+      transform: scale(1.05);
+    }
+
+    /* User Info - Profile Picture & Name */
+    #user-info {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    /* Page Sections */
+    .page {
+      display: none;
+      padding: 40px 20px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .active {
+      display: block;
+    }
+
+    /* Section Heading */
+    #heading {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    /* Inputs & Textareas */
+    input, textarea {
+      padding: 12px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      background-color: #223044;
+      color: #fff;
+    }
+
+    input:focus, textarea:focus {
+      outline: 2px solid #3fa0f9;
+    }
+
+    /* Buttons */
+    button {
+      padding: 12px 24px;
+      background-color: #3fa0f9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #58c0f5;
+      transform: translateY(-2px);
+    }
+
+    /* Info Block */
+    #block {
+      background-color: #151d2a;
+      display: inline-block;
+      max-width: 400px;
+      padding: 15px;
+      border-radius: 10px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <div id="nav">
+    <h2>Navigate</h2>
+    <a href="#" onclick="showPage('home')">Home</a>
+    <a href="#" onclick="showPage('contact')">Contact</a>
+  </div>
+
+  <!-- User Info Section -->
+  <div id="user-info" style="display: none;">
+    <img id="profile-pic" src="" alt="User's profile picture">
+    <span id="username"></span>
+  </div>
+
+  <!-- Home Page -->
+  <div id="home" class="page active">
+    <h1 id="heading">PANEL OF EXPERTS</h1>
+    <div id="info">
+      <h2>What is our purpose?</h2>
+      <p>Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.</p>
     </div>
+  </div>
 
-    <!-- Home Page -->
-    <div id="home" class="page active">
-      <h1 id="heading">PANEL OF EXPERTS</h1>
-      <div id="info">
-        <h2>What is our purpose?</h2>
-        <p>Our purpose is to provide aid and advice to dying companies.</p>
-      </div>
+  <!-- Sign Up Page -->
+  <div id="contact" class="page">
+    <h2>Contact us!</h2>
+    <div id="block">
+      <p>Mobile: +971 PANEL</p>
+      <p>Email: panel@outlook.com</p>
     </div>
+  </div>
 
-    <!-- Sign Up Page -->
-    <div id="contact" class="page">
-      <h2>Contact us!</h2>
-      <div id="block">
-        <p>Mobile: +971 PANEL</p>
-      </div>
-    </div>
+  <!-- Firebase and Google Auth Scripts -->
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
+      authDomain: "efwes-89b5a.firebaseapp.com",
+      projectId: "efwes-89b5a",
+      storageBucket: "efwes-89b5a.firebasestorage.app",
+      messagingSenderId: "734782298167",
+      appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
+      measurementId: "G-HZZE66MYV7"
+    };
 
-    <script>
-      function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Google Sign-In
+    function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider).then((result) => {
+        const user = result.user;
+        document.getElementById('profile-pic').src = user.photoURL;
+        document.getElementById('username').textContent = user.displayName;
+        document.getElementById('user-info').style.display = 'flex';  // Show user info
+      }).catch((error) => {
+        console.error(error.message);
+      });
+    }
+
+    // Sign Out Function
+    function signOut() {
+      auth.signOut().then(() => {
+        document.getElementById('user-info').style.display = 'none';  // Hide user info
+      }).catch((error) => {
+        console.error(error.message);
+      });
+    }
+
+    // Handle Auth State Change
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('profile-pic').src = user.photoURL;
+        document.getElementById('username').textContent = user.displayName;
+        document.getElementById('user-info').style.display = 'flex';
+      } else {
+        document.getElementById('user-info').style.display = 'none';
       }
-    </script>
-  </body>
+    });
+
+    // Page Navigation Function
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+  </script>
+
+  <!-- Google Sign-In Button -->
+  <button onclick="signInWithGoogle()">Sign In with Google</button>
+  <button onclick="signOut()">Sign Out</button>
+</body>
 </html>
