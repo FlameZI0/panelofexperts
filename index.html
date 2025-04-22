@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="Image20250422092618.png">
+  <!-- Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  
   <title>Panel Experts</title>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
@@ -178,7 +182,6 @@
     </div>
   </div>
 
-  <!-- Firebase and Google Auth Scripts -->
   <script>
     // Firebase Config
     const firebaseConfig = {
@@ -190,35 +193,36 @@
       appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
       measurementId: "G-HZZE66MYV7"
     };
-
+  
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Google Sign-In
+    firebase.initializeApp(firebaseConfig);
+  
+    // Sign in with Google
     function signInWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider).then((result) => {
-        const user = result.user;
-        document.getElementById('profile-pic').src = user.photoURL;
-        document.getElementById('username').textContent = user.displayName;
-        document.getElementById('user-info').style.display = 'flex';  // Show user info
-      }).catch((error) => {
-        console.error(error.message);
-      });
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+          var user = result.user;
+          document.getElementById('profile-pic').src = user.photoURL;
+          document.getElementById('username').textContent = user.displayName;
+          document.getElementById('user-info').style.display = 'flex';
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
     }
-
-    // Sign Out Function
+  
+    // Sign out
     function signOut() {
-      auth.signOut().then(() => {
-        document.getElementById('user-info').style.display = 'none';  // Hide user info
+      firebase.auth().signOut().then(() => {
+        document.getElementById('user-info').style.display = 'none';
       }).catch((error) => {
         console.error(error.message);
       });
     }
-
-    // Handle Auth State Change
-    auth.onAuthStateChanged(user => {
+  
+    // Listen for auth state changes
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         document.getElementById('profile-pic').src = user.photoURL;
         document.getElementById('username').textContent = user.displayName;
@@ -227,8 +231,8 @@
         document.getElementById('user-info').style.display = 'none';
       }
     });
-
-    // Page Navigation Function
+  
+    // Page Navigation
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
