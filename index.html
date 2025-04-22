@@ -181,6 +181,11 @@
     <h2>Navigate</h2>
     <a href="#" onclick="showPage('home')">Home</a>
     <a href="#" onclick="showPage('contact')">Contact</a>
+    <!-- Language Dropdown -->
+    <select id="language-dropdown" onchange="changeLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+    </select>
   </div>
 
   <!-- User Info Section -->
@@ -193,23 +198,37 @@
   <div id="home" class="page active">
     <h1 id="heading">PANEL OF EXPERTS</h1>
     <div id="info">
-      <h2>What is our purpose?</h2>
-      <p>Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.</p>
+      <h2 id="what_is_our_purpose">What is our purpose?</h2>
+      <p id="purpose_text">Our purpose is to provide aid and advice to dying companies — reigniting innovation, restructuring chaos, and helping them rise from the ashes to dominate their industries once more.</p>
     </div>
   </div>
 
   <!-- Contact Page -->
   <div id="contact" class="page">
-    <h2>Contact us!</h2>
+    <h2 id="contact_us">Contact us!</h2>
     <div id="block">
-      <p>Mobile: +971 PANEL</p>
-      <p>Email: panel@outlook.com</p>
+      <p id="mobile">Mobile: +971 PANEL</p>
+      <p id="email">Email: panel@outlook.com</p>
     </div>
   </div>
 
-  <!-- Arabic Translations (Add below for Arabic toggle) -->
+  <!-- Google Sign-In Button -->
+  <button id="sign-in" onclick="signInWithGoogle()">Sign In with Google</button>
+  <button id="sign-out" onclick="signOut()" style="display: none;">Sign Out</button>
+
   <script>
-    // Add Arabic translations to the page elements
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7XFPp6V73xcqmv64-T2Zabq4vIfYEaVA",
+      authDomain: "efwes-89b5a.firebaseapp.com",
+      projectId: "efwes-89b5a",
+      storageBucket: "efwes-89b5a.appspot.com",
+      messagingSenderId: "734782298167",
+      appId: "1:734782298167:web:73fb6b077ec1b12d05c7b2",
+      measurementId: "G-HZZE66MYV7"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
     const translations = {
       'en': {
         'home': 'Home',
@@ -237,7 +256,7 @@
       }
     };
 
-    // Function to switch languages
+    // Function to change language
     function changeLanguage(language) {
       const langData = translations[language];
       document.getElementById('home').innerHTML = langData.home;
@@ -250,6 +269,42 @@
       document.getElementById('email').innerHTML = langData.email;
       document.getElementById('sign_in').innerHTML = langData.sign_in;
       document.getElementById('sign_out').innerHTML = langData.sign_out;
+    }
+
+    // Function to show pages
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    // Firebase Google Sign-in
+    function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          document.getElementById('username').innerText = user.displayName;
+          document.getElementById('profile-pic').src = user.photoURL;
+          document.getElementById('user-info').style.display = 'flex';
+          document.getElementById('sign-in').style.display = 'none';
+          document.getElementById('sign-out').style.display = 'block';
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    function signOut() {
+      firebase.auth().signOut()
+        .then(() => {
+          document.getElementById('user-info').style.display = 'none';
+          document.getElementById('sign-in').style.display = 'block';
+          document.getElementById('sign-out').style.display = 'none';
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   </script>
 </body>
