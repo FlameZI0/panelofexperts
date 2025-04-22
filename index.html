@@ -250,15 +250,17 @@
         });
     }
   
-    function showUserInfo(user) {
-      const profilePic = document.getElementById('profile-pic');
-      const username = document.getElementById('username');
-      const container = document.getElementById('user-info');
-  
-      profilePic.src = user.photoURL || "https://via.placeholder.com/40";
-      username.textContent = user.displayName || "Unnamed User";
-      container.style.display = 'flex';
-    }
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log("👤 User logged in:", user.displayName, user.photoURL);
+        // Now update DOM/UI here
+        document.getElementById("username").innerText = user.displayName;
+        document.getElementById("profile-pic").src = user.photoURL;
+      } else {
+        console.log("❌ No user signed in");
+      }
+    });
+
   
     // Safe DOM load + auth state
     window.addEventListener('DOMContentLoaded', () => {
